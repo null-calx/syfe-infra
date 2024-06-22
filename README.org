@@ -1,0 +1,65 @@
+#+TITLE: infra-assignment
+#+AUTHOR: calx
+
+* Run a production grade Wordpress app on Kubernetes
+
+#+BEGIN_SRC sh
+  helm install infra helm/infra
+  minikube tunnel
+#+END_SRC
+
+** Delete
+
+#+BEGIN_SRC sh
+  helm uninstall infra
+#+END_SRC
+
+* Setup monitoring and alerting for wordpress app
+
+#+BEGIN_SRC sh
+  helm dependency update helm/monitoring
+  helm install monitoring helm/monitoring
+  minikube tunnel
+#+END_SRC
+
+** Access Grafana
+
+#+BEGIN_SRC sh
+  kubectl port-forward service/monitoring-grafana 3000
+#+END_SRC
+
+** Delete
+
+#+BEGIN_SRC sh
+  helm uninstall infra
+#+END_SRC
+
+-----
+
+* Notes
+
+** podman setup
+
+#+BEGIN_SRC sh
+  minikube config set driver podman
+  minikube config set rootless true
+  minikube config set container-runtime containerd
+#+END_SRC
+
+** Running app with podman-compose
+
+This will mount [[wordpress/data]] and [[wordpress/mysql]] folders as the data
+directories for wordpress and mysql containers, respectively.
+
+#+BEGIN_SRC sh
+  podman-compose up
+#+END_SRC
+
+** Running app with kubectl
+
+#+BEGIN_SRC sh
+  kubectl apply -f k8s
+#+END_SRC
+
+This will pollute the ~default~ namespace. To install the previous
+helm charts again delete everything.
