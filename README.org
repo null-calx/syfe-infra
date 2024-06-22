@@ -1,12 +1,16 @@
 #+TITLE: infra-assignment
 #+AUTHOR: calx
 
-* Run a production grade Wordpress app on Kubernetes
+* 1. Run a production grade Wordpress app on Kubernetes
 
 #+BEGIN_SRC sh
   helm install infra helm/infra
   minikube tunnel
 #+END_SRC
+
+Open [[http://localhost:80]]
+
+[[./_ss/wordpress.png]]
 
 ** Delete
 
@@ -14,7 +18,7 @@
   helm uninstall infra
 #+END_SRC
 
-* Setup monitoring and alerting for wordpress app
+* 2. Setup monitoring and alerting for wordpress app
 
 #+BEGIN_SRC sh
   helm dependency update helm/monitoring
@@ -22,17 +26,42 @@
   minikube tunnel
 #+END_SRC
 
+Open [[http://localhost:80]]
+
 ** Access Grafana
 
 #+BEGIN_SRC sh
-  kubectl port-forward service/monitoring-grafana 3000
+  kubectl port-forward deployments/monitoring-grafana 3000
 #+END_SRC
+
+Open [[http://localhost:3000]]
+
+[[./_ss/grafana.png]]
+
+| user     | admin         |
+| passwrod | prom-operator |
 
 ** Delete
 
 #+BEGIN_SRC sh
-  helm uninstall infra
+  helm uninstall monitoring
 #+END_SRC
+
+-----
+
+* Monitoring
+
+** CPU Usage
+
+[[./_ss/nginx-cpu.png]]
+
+[[./_ss/wordpress-cpu.png]]
+
+[[./_ss/mysql-cpu.png]]
+
+** Request counts
+
+[[./_ss/request-count.png]]
 
 -----
 
