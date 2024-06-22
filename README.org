@@ -12,6 +12,11 @@ Open [[http://localhost:80]]
 
 [[./_ss/wordpress.png]]
 
+| -         | Dockerfile           |
+| nginx     | [[nginx/Dockerfile]]     |
+| wordpress | [[wordpress/Dockerfile]] |
+| mysql     | [[mysql/Dockerfile]]     |
+
 ** Delete
 
 #+BEGIN_SRC sh
@@ -27,6 +32,16 @@ Open [[http://localhost:80]]
 #+END_SRC
 
 Open [[http://localhost:80]]
+
+| -         | Dockerfile                     |
+| nginx     | [[nginx-with-exporter/Dockerfile]] |
+| wordpress | [[wordpress/Dockerfile]]           |
+| mysql     | [[mysql/Dockerfile]]               |
+
+** Dependencies
+
+- [[https://github.com/knyar/nginx-lua-prometheus][nginx-lua-prometheus]] for exposing nginx's metrics
+- [[https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack][kube-prometheus-stack]] for setting up the prometheus and grafana stack
 
 ** Access Grafana
 
