@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: {{ .Values.namespace }}
+data:
+  url: mysql
+  host: "mysql:{{ .Values.mysql.servicePort }}"
+  database: mysqldb

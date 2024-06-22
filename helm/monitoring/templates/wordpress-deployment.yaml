@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-deployment
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.wordpress.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.wordpress.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.wordpress.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.wordpress.containerName }}
+          image: "{{ .Values.wordpress.image }}:{{ .Values.wordpress.tag }}"
+          ports:
+            - containerPort: {{ .Values.wordpress.containerPort }}
+          env:
+            - name: WORDPRESS_DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: host
+            - name: WORDPRESS_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config
+                  key: database
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: user
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+          volumeMounts:
+            - name: wordpress-storage
+              mountPath: /var/www/html
+              subPath: wordpress
+      volumes:
+        - name: wordpress-storage
+          persistentVolumeClaim:
+            claimName: wordpress-persistent-volume-claim

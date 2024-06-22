@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: {{ .Values.namespace }}
+spec:
+  type: LoadBalancer
+  selector:
+    app: {{ .Values.nginx.appName }}
+  ports:
+    - port: {{ .Values.nginx.containerPort }}
+      targetPort: {{ .Values.nginx.servicePort }}
+      nodePort: {{ .Values.nginx.nodePort }}

@@ -1,0 +1,29 @@
+namespace: default
+
+nginx:
+  appName: nginx
+  replicas: 1
+  image: pranshukhandal/infra_nginx
+  tag: latest
+  containerName: nginx
+  containerPort: 80
+  servicePort: 80
+  nodePort: 30001
+
+wordpress:
+  appName: wordpress
+  replicas: 1
+  image: pranshukhandal/infra_wordpress
+  tag: latest
+  containerName: wordpress
+  containerPort: 80
+  servicePort: 80
+
+mysql:
+  appName: mysql
+  replicas: 1
+  image: pranshukhandal/infra_mysql
+  tag: latest
+  containerName: mysql
+  containerPort: 3306
+  servicePort: 3306

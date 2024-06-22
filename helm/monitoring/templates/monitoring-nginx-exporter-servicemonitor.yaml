@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: monitoring-prometheus-nginx-exporter
+  namespace: {{ .Values.namespace }}
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.nginx.appName }}-exporter
+  endpoints:
+    - port: {{ .Values.nginx.exporter.name }}
+      path: {{ .Values.nginx.exporter.path }}

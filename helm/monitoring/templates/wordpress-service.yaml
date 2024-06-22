@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.wordpress.appName }}
+  ports:
+    - port: {{ .Values.wordpress.containerPort }}
+      targetPort: {{ .Values.wordpress.servicePort }}
